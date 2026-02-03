@@ -1,6 +1,6 @@
 1. Create a new repository from scratch
 
-2. echo "# Git-Comandos" >> README.md   # create a README file
+  echo "# Git-Comandos" >> README.md   # create a README file
 - git init                             # initialize a new Git repo
 - git add README.md                    # stage the README
 - git commit -m "first commit"         # commit it
