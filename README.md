@@ -46,6 +46,12 @@ Para instalar o Git:
 - **git push -u origin main**:
 - **git pull origin main**:
 
+## Principais formas de baixar
+- **Clonar Repositório Inteiro**
+    - **git clone https://github.com/......**
+- **Via GitHub CLI**
+    - **gh repo clone usuario/repositorio**
+
 - 
 ##  Recursos adicionais
 - **[Documentação oficial do Git](https://git-scm.com/docs?utm_source=copilot.com)**:
