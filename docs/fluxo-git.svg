@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Comandos Git: fluxo entre as quatro áreas</title>
+  <desc id="d">As alterações saem do diretório de trabalho para o stage com git add, do stage para o repositório local com git commit e do local para o GitHub com git push. No sentido contrário, git fetch baixa do GitHub, git pull baixa e junta no diretório de trabalho, e git switch ou git restore trazem versões do repositório local para a pasta.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#121c33"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.32" r="0.6">
+      <stop offset="0" stop-color="#f97316" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#f97316" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16213a"/>
+      <stop offset="1" stop-color="#111a2e"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1b2742" stroke-width="1"/>
+    </pattern>
+    <marker id="fwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#fb923c"/>
+    </marker>
+    <marker id="back" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      text { font-family: Inter, "Segoe UI", Helvetica, Arial, sans-serif; }
+      .mono, .mono text { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, "DejaVu Sans Mono", monospace; }
+      .h { fill: #f1f5f9; font-weight: 700; }
+      .p { fill: #cbd5e1; font-size: 13px; }
+      .s { fill: #94a3b8; }
+      .flow { stroke: #fb923c; stroke-width: 2.4; fill: none; stroke-dasharray: 6 6; animation: run 1.2s linear infinite; }
+      .ret { stroke: #94a3b8; stroke-width: 2; fill: none; stroke-linejoin: round; }
+      .tag { fill: #0b1220; stroke: #334155; }
+      @keyframes run { to { stroke-dashoffset: -24; } }
+    </style>
+  </defs>
+
+  <!-- fundo -->
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#grid)" opacity="0.55"/>
+  <rect width="1280" height="720" fill="url(#halo)"/>
+
+  <!-- cabeçalho -->
+  <text x="36" y="66" class="h" font-size="34">Comandos Git</text>
+  <text x="36" y="96" class="s" font-size="15">As quatro áreas por onde o seu código passa e o comando que leva de uma para a outra</text>
+  <g transform="translate(1084 42)">
+    <rect width="160" height="32" rx="16" fill="#2a1a0e" stroke="#f97316" stroke-opacity="0.6"/>
+    <text x="80" y="21" text-anchor="middle" class="mono" font-size="12.5" fill="#fdba74">$ git status</text>
+  </g>
+
+  <!-- setas de ida -->
+  <g>
+    <path class="flow" d="M301 236H345" marker-end="url(#fwd)"/>
+    <path class="flow" d="M616 236H660" marker-end="url(#fwd)"/>
+    <path class="flow" d="M931 236H975" marker-end="url(#fwd)"/>
+    <text x="325" y="222" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#fdba74">add</text>
+    <text x="640" y="222" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#fdba74">commit</text>
+    <text x="955" y="222" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#fdba74">push</text>
+  </g>
+
+  <!-- 1. Diretório de trabalho -->
+  <g transform="translate(36 150)">
+    <rect width="263" height="180" rx="16" fill="url(#card)" stroke="#2a3756"/>
+    <rect x="18" width="227" height="3" rx="1.5" fill="#fbbf24"/>
+    <circle cx="44" cy="46" r="22" fill="#fbbf24" fill-opacity="0.12" stroke="#fbbf24" stroke-opacity="0.5"/>
+    <g fill="none" stroke="#fcd34d" stroke-width="2" stroke-linejoin="round">
+      <path d="M33 39H42L45 42H55V54H33Z"/>
+    </g>
+    <text x="78" y="42" class="h" font-size="16">Diretório de trabalho</text>
+    <text x="78" y="60" class="mono" font-size="11" fill="#fbbf24">sua pasta</text>
+    <text x="22" y="104" class="p">Os arquivos como estão agora,</text>
+    <text x="22" y="124" class="p">salvos no disco.</text>
+    <text x="22" y="156" class="mono" font-size="11.5" fill="#94a3b8">git status · git diff</text>
+  </g>
+
+  <!-- 2. Stage -->
+  <g transform="translate(351 150)">
+    <rect width="263" height="180" rx="16" fill="url(#card)" stroke="#2a3756"/>
+    <rect x="18" width="227" height="3" rx="1.5" fill="#22d3ee"/>
+    <circle cx="44" cy="46" r="22" fill="#22d3ee" fill-opacity="0.12" stroke="#22d3ee" stroke-opacity="0.5"/>
+    <g fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="34" y="38" width="20" height="16" rx="2"/>
+      <path d="M38 46L42 50L50 42"/>
+    </g>
+    <text x="78" y="42" class="h" font-size="16">Stage</text>
+    <text x="78" y="60" class="mono" font-size="11" fill="#22d3ee">área de preparação</text>
+    <text x="22" y="104" class="p">O que vai entrar no próximo</text>
+    <text x="22" y="124" class="p">commit, e só isso.</text>
+    <text x="22" y="156" class="mono" font-size="11.5" fill="#94a3b8">git add . · git add arq.txt</text>
+  </g>
+
+  <!-- 3. Repositório local -->
+  <g transform="translate(666 150)">
+    <rect width="263" height="180" rx="16" fill="url(#card)" stroke="#2a3756"/>
+    <rect x="18" width="227" height="3" rx="1.5" fill="#34d399"/>
+    <circle cx="44" cy="46" r="22" fill="#34d399" fill-opacity="0.12" stroke="#34d399" stroke-opacity="0.5"/>
+    <g fill="none" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round">
+      <circle cx="44" cy="40" r="3.5"/>
+      <circle cx="44" cy="54" r="3.5"/>
+      <path d="M44 43.5V50.5"/>
+    </g>
+    <text x="78" y="42" class="h" font-size="16">Repositório local</text>
+    <text x="78" y="60" class="mono" font-size="11" fill="#34d399">pasta .git</text>
+    <text x="22" y="104" class="p">O histórico de commits, no seu</text>
+    <text x="22" y="124" class="p">computador.</text>
+    <text x="22" y="156" class="mono" font-size="11.5" fill="#94a3b8">git log --oneline</text>
+  </g>
+
+  <!-- 4. Remoto -->
+  <g transform="translate(981 150)">
+    <rect width="263" height="180" rx="16" fill="url(#card)" stroke="#2a3756"/>
+    <rect x="18" width="227" height="3" rx="1.5" fill="#a78bfa"/>
+    <circle cx="44" cy="46" r="22" fill="#a78bfa" fill-opacity="0.12" stroke="#a78bfa" stroke-opacity="0.5"/>
+    <g fill="none" stroke="#c4b5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M36 52H53A5 5 0 0 0 52 42A7 7 0 0 0 39 43A5 5 0 0 0 36 52Z"/>
+    </g>
+    <text x="78" y="42" class="h" font-size="16">Repositório remoto</text>
+    <text x="78" y="60" class="mono" font-size="11" fill="#a78bfa">GitHub · origin</text>
+    <text x="22" y="104" class="p">A cópia compartilhada, de onde</text>
+    <text x="22" y="124" class="p">os outros baixam.</text>
+    <text x="22" y="156" class="mono" font-size="11.5" fill="#94a3b8">git clone &lt;url&gt;</text>
+  </g>
+
+  <!-- setas de volta -->
+  <g>
+    <path class="ret" d="M1092 330V364H818V336" marker-end="url(#back)"/>
+    <path class="ret" d="M1132 330V398H148V336" marker-end="url(#back)"/>
+    <path class="ret" d="M778 330V364H188V336" marker-end="url(#back)"/>
+
+    <rect x="917" y="353" width="78" height="22" rx="11" class="tag"/>
+    <text x="956" y="368" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#e2e8f0">fetch</text>
+
+    <rect x="597" y="387" width="86" height="22" rx="11" class="tag"/>
+    <text x="640" y="402" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#e2e8f0">pull</text>
+
+    <rect x="378" y="353" width="210" height="22" rx="11" class="tag"/>
+    <text x="483" y="368" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#e2e8f0">switch · restore</text>
+
+    <text x="1150" y="368" class="s" font-size="11.5">só baixa</text>
+    <text x="1150" y="402" class="s" font-size="11.5">baixa e junta</text>
+    <text x="600" y="385" class="s" font-size="11.5">traz versões para a pasta</text>
+  </g>
+
+  <!-- painel: branches -->
+  <g transform="translate(36 474)">
+    <rect width="590" height="206" rx="16" fill="#0f1a2e" stroke="#2a3756"/>
+    <text x="22" y="36" class="h" font-size="16">Branches: trabalhe sem quebrar a main</text>
+
+    <!-- linha main -->
+    <path d="M40 132H548" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+    <text x="40" y="160" class="mono" font-size="11.5" fill="#6ee7b7">main</text>
+    <!-- branch -->
+    <path d="M150 132C190 132 190 86 230 86H390C430 86 430 132 470 132" stroke="#fb923c" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <text x="250" y="72" class="mono" font-size="11.5" fill="#fdba74">minha-alteracao</text>
+    <!-- commits -->
+    <g stroke="#0f1a2e" stroke-width="3">
+      <circle cx="80" cy="132" r="8" fill="#34d399"/>
+      <circle cx="150" cy="132" r="8" fill="#34d399"/>
+      <circle cx="270" cy="86" r="8" fill="#fb923c"/>
+      <circle cx="350" cy="86" r="8" fill="#fb923c"/>
+      <circle cx="470" cy="132" r="10" fill="#34d399"/>
+      <circle cx="530" cy="132" r="8" fill="#34d399"/>
+    </g>
+    <!-- rótulos dos comandos -->
+    <text x="150" y="182" text-anchor="middle" class="mono" font-size="11.5" fill="#e2e8f0">git switch -c</text>
+    <text x="310" y="118" text-anchor="middle" class="mono" font-size="11.5" fill="#94a3b8">add + commit</text>
+    <text x="470" y="182" text-anchor="middle" class="mono" font-size="11.5" fill="#e2e8f0">git merge</text>
+    <path d="M150 168V146M470 168V148" stroke="#475569" stroke-width="1.5" stroke-dasharray="2 3"/>
+  </g>
+
+  <!-- painel: primeiros passos -->
+  <g transform="translate(654 474)">
+    <rect width="590" height="206" rx="16" fill="#0f1a2e" stroke="#2a3756"/>
+    <text x="22" y="36" class="h" font-size="16">Primeiro envio de um projeto novo</text>
+    <g class="mono" font-size="12.5">
+      <g transform="translate(22 56)">
+        <circle cx="12" cy="12" r="12" fill="#f97316" fill-opacity="0.15" stroke="#f97316"/>
+        <text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fdba74">1</text>
+        <text x="36" y="17" fill="#e2e8f0">git init</text>
+      </g>
+      <g transform="translate(22 90)">
+        <circle cx="12" cy="12" r="12" fill="#f97316" fill-opacity="0.15" stroke="#f97316"/>
+        <text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fdba74">2</text>
+        <text x="36" y="17" fill="#e2e8f0">git add . &amp;&amp; git commit -m "primeiro commit"</text>
+      </g>
+      <g transform="translate(22 124)">
+        <circle cx="12" cy="12" r="12" fill="#f97316" fill-opacity="0.15" stroke="#f97316"/>
+        <text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fdba74">3</text>
+        <text x="36" y="17" fill="#e2e8f0">git remote add origin &lt;url-do-github&gt;</text>
+      </g>
+      <g transform="translate(22 158)">
+        <circle cx="12" cy="12" r="12" fill="#f97316" fill-opacity="0.15" stroke="#f97316"/>
+        <text x="12" y="16.5" text-anchor="middle" font-size="12" font-weight="700" fill="#fdba74">4</text>
+        <text x="36" y="17" fill="#e2e8f0">git push -u origin main</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- rodapé -->
+  <text x="640" y="706" text-anchor="middle" class="mono" font-size="11" fill="#475569">github.com/Jarderl/Comandos-Git</text>
+</svg>
