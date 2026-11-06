@@ -1,254 +1,180 @@
+![Fluxo do Git: comandos entre as quatro áreas](docs/fluxo-git.svg)
 
-# Git-Comandos
+# Comandos Git
 
-Este repositório reúne **comandos úteis do Git** com exemplos práticos e explicações rápidas.  
+Este repositório reúne **comandos úteis do Git** com exemplos práticos e explicações rápidas.
 O objetivo é servir como guia de referência para iniciantes e também para quem já usa Git no dia a dia.
 
 ---
 
-##  Conteúdo
+## Conteúdo
 
+- [Como o Git organiza o trabalho](#como-o-git-organiza-o-trabalho)
 - [Instalação](#instalação)
 - [Configuração inicial](#configuração-inicial)
 - [Comandos básicos](#comandos-básicos)
 - [Branches](#branches)
 - [Remotes](#remotes)
-- [Colaboração](#colaboração)
+- [Formas de baixar um repositório](#formas-de-baixar-um-repositório)
+- [Colaboração e conflitos](#colaboração-e-conflitos)
+- [Desfazendo coisas](#desfazendo-coisas)
+- [Dica: salvamento automático no VS Code](#dica-salvamento-automático-no-vs-code)
 - [Recursos adicionais](#recursos-adicionais)
 
 ---
 
-##  Instalaçãoss
+## Como o Git organiza o trabalho
 
-Para instalar o Git:
+Todo arquivo passa por quatro áreas, e cada comando move as alterações de uma área para outra:
 
-- **Windows**: [Download oficial](https://git-scm.com/download/win)  
-- **Linux**:  
+| Área | O que é | Comando que leva para a próxima |
+|---|---|---|
+| **Diretório de trabalho** | Os arquivos como estão na sua pasta | `git add` |
+| **Stage** (área de preparação) | O que vai entrar no próximo commit | `git commit` |
+| **Repositório local** | O histórico de commits no seu computador | `git push` |
+| **Repositório remoto** | O histórico no GitHub | `git pull` traz de volta |
+
+---
+
+## Instalação
+
+- **Windows**: [download oficial](https://git-scm.com/download/win)
+- **Linux (Ubuntu/Debian)**:
+
   ```bash
   sudo apt-get install git
-  
-##  Configuração inicial
-- **git config --global user.name "Seu Nome"**:
-- **git config --global user.email "seuemail@exemplo.com"**:
+  ```
 
-##  Comandos básicos
-- **git init**:                # Inicializa um novo repositório
-- **git status**:              # Mostra o estado atual
-- **git add arquivo.txt**:     # Adiciona arquivo ao stage
-- **git commit -m "mensagem"**: # Cria um commit
-- **git pull origin main --allow-unrelated-histories** # Puxar e juntar as alterações do GitHub
+- **macOS**:
 
+  ```bash
+  xcode-select --install
+  ```
 
-##  Branches
-- **git branch nome-branch**:   # Cria uma nova branch
-- **git checkout nome-branch**: # Troca para a branch
-- **git merge nome-branch**:    # Faz merge da branch
+Confira a instalação com `git --version`.
 
-##  Remotes
-- **git remote add origin https://github.com/usuario/repositorio.git**:
-- **git push -u origin main**:
-- **git pull origin main**: # Enviar o seu código atualizado
+---
 
-## Principais formas de baixar
-- **Clonar Repositório Inteiro**
-    - **git clone https://github.com/......**
-- **Via GitHub CLI**
-    - **gh repo clone usuario/repositorio**
+## Configuração inicial
 
-- 
-##  Recursos adicionais
-- **[Documentação oficial do Git](https://git-scm.com/docs?utm_source=copilot.com)**:
-- **[GitHub Docs](https://docs.github.com/pt?utm_source=copilot.com)**:
+Feita uma única vez por computador. O nome e o e-mail aparecem em cada commit.
 
+```bash
+git config --global user.name "Seu Nome"
+git config --global user.email "seuemail@exemplo.com"
+git config --global init.defaultBranch main   # novos repositórios já nascem na main
+```
 
-=======
+---
+
+## Comandos básicos
+
+```bash
+git init                      # Inicializa um novo repositório na pasta atual
+git status                    # Mostra o estado atual dos arquivos
+git add arquivo.txt           # Adiciona um arquivo ao stage
+git add .                     # Adiciona todas as alterações da pasta ao stage
+git commit -m "mensagem"      # Cria um commit com o que está no stage
+git log --oneline             # Lista o histórico de commits, um por linha
+git diff                      # Mostra o que mudou e ainda não foi para o stage
+```
+
+---
+
+## Branches
+
+```bash
+git branch                    # Lista as branches
+git branch nome-branch        # Cria uma nova branch
+git switch nome-branch        # Troca para a branch (forma atual do checkout)
+git switch -c nome-branch     # Cria e já troca para a branch
+git merge nome-branch         # Traz as alterações da branch para a branch atual
+git branch -d nome-branch     # Apaga a branch depois do merge
+```
+
+`git checkout nome-branch` também troca de branch e continua funcionando.
+
+---
+
+## Remotes
+
+```bash
+git remote add origin https://github.com/usuario/repositorio.git   # Liga a pasta ao GitHub
+git remote -v                 # Mostra para onde o repositório aponta
+git push -u origin main       # Primeiro envio: publica e lembra o destino
+git push                      # Envios seguintes
+git pull origin main          # Recebe do GitHub e junta com o seu código
+git fetch                     # Só baixa as novidades, sem juntar
+```
+
+Se o repositório do GitHub foi criado com README e a pasta local já tinha commits, o primeiro `pull` recusa juntar históricos que nasceram separados. Nesse caso, use uma única vez:
+
+```bash
+git pull origin main --allow-unrelated-histories
+```
+
+---
+
+## Formas de baixar um repositório
+
+```bash
+git clone https://github.com/usuario/repositorio.git   # Clona o repositório inteiro
+gh repo clone usuario/repositorio                      # Via GitHub CLI
+```
+
+---
+
+## Colaboração e conflitos
+
+Fluxo recomendado para mexer em algo sem quebrar a `main`:
+
+```bash
+git switch main && git pull                 # Parte da versão mais recente
+git switch -c minha-alteracao               # Trabalha numa branch própria
+git add . && git commit -m "Descreve a mudança"
+git push -u origin minha-alteracao          # Publica a branch e abre um Pull Request no GitHub
+```
+
+Quando o Git não consegue juntar duas alterações na mesma linha, ele marca o arquivo assim:
+
+```text
 <<<<<<< HEAD
-# Git-Comandos
-
-Este repositório reúne **comandos úteis do Git** com exemplos práticos e explicações rápidas.  
-O objetivo é servir como guia de referência para iniciantes e também para quem já usa Git no dia a dia.
-
----
-
-##  Conteúdo
-
-- [Instalação](#instalação)
-- [Configuração inicial](#configuração-inicial)
-- [Comandos básicos](#comandos-básicos)
-- [Branches](#branches)
-- [Remotes](#remotes)
-- [Colaboração](#colaboração)
-- [Recursos adicionais](#recursos-adicionais)
-
----
-
-##  Instalação
-
-Para instalar o Git:
-
-- **Windows**: [Download oficial](https://git-scm.com/download/win)  
-- **Linux**:  
-  ```bash
-  sudo apt-get install git
-  
-##  Configuração inicial
-- **git config --global user.name "Seu Nome"**:
-- **git config --global user.email "seuemail@exemplo.com"**:
-
-##  Comandos básicos
-- **git init**:                # Inicializa um novo repositório
-- **git status**:              # Mostra o estado atual
-- **git add arquivo.txt**:     # Adiciona arquivo ao stage
-- **git commit -m "mensagem"**: # Cria um commit
-
-##  Branches
-- **git branch nome-branch**:   # Cria uma nova branch
-- **git checkout nome-branch**: # Troca para a branch
-- **git merge nome-branch**:    # Faz merge da branch
-
-##  Remotes
-- **git remote add origin https://github.com/usuario/repositorio.git**:
-- **git push -u origin main**:
-- **git pull origin main**:
-
-## Principais formas de baixar
-- **Clonar Repositório Inteiro**
-    - **git clone https://github.com/......**
-- **Via GitHub CLI**
-    - **gh repo clone usuario/repositorio**
-
-- 
-##  Recursos adicionais
-- **[Documentação oficial do Git](https://git-scm.com/docs?utm_source=copilot.com)**:
-- **[GitHub Docs](https://docs.github.com/pt?utm_source=copilot.com)**:
-
-
+a sua versão
 =======
-# Git-Comandos
+a versão que veio do GitHub
+>>>>>>> 1a2b3c4
+```
 
-Este repositório reúne **comandos úteis do Git** com exemplos práticos e explicações rápidas.  
-O objetivo é servir como guia de referência para iniciantes e também para quem já usa Git no dia a dia.
+Para resolver, edite o arquivo deixando só o texto final, **apague as três linhas de marcação** e conclua:
 
----
+```bash
+git add arquivo-com-conflito
+git commit -m "Resolve conflito"
+```
 
-##  Conteúdo
-
-- [Instalação](#instalação)
-- [Configuração inicial](#configuração-inicial)
-- [Comandos básicos](#comandos-básicos)
-- [Branches](#branches)
-- [Remotes](#remotes)
-- [Colaboração](#colaboração)
-- [Recursos adicionais](#recursos-adicionais)
+Antes de commitar, procure por `<<<<<<<` no arquivo para garantir que nenhuma marcação ficou para trás. Foi uma marcação esquecida assim que duplicou o README deste repositório no passado.
 
 ---
 
-##  Instalação
+## Desfazendo coisas
 
-Para instalar o Git:
-
-- **Windows**: [Download oficial](https://git-scm.com/download/win)  
-- **Linux**:  
-  ```bash
-  sudo apt-get install git
-  
-##  Configuração inicial
-- **git config --global user.name "Seu Nome"**:
-- **git config --global user.email "seuemail@exemplo.com"**:
-
-##  Comandos básicos
-- **git init**:                # Inicializa um novo repositório
-- **git status**:              # Mostra o estado atual
-- **git add arquivo.txt**:     # Adiciona arquivo ao stage
-- **git commit -m "mensagem"**: # Cria um commit
-
-##  Branches
-- **git branch nome-branch**:   # Cria uma nova branch
-- **git checkout nome-branch**: # Troca para a branch
-- **git merge nome-branch**:    # Faz merge da branch
-
-##  Remotes
-- **git remote add origin https://github.com/usuario/repositorio.git**:
-- **git push -u origin main**:
-- **git pull origin main**:
-
-## Principais formas de baixar
-- **Clonar Repositório Inteiro**
-    - **git clone https://github.com/......**
-- **Via GitHub CLI**
-    - **gh repo clone usuario/repositorio**
-
-- 
-##  Recursos adicionais
-- **[Documentação oficial do Git](https://git-scm.com/docs?utm_source=copilot.com)**:
-- **[GitHub Docs](https://docs.github.com/pt?utm_source=copilot.com)**:
-
-
->>>>>>> 20f25a48611ac227e007f63ee9921fba62bb00ca
->>>>>>> 365dd4e2aa58c86587bbb5fd2969edc7fa4dd645
-=======
-<<<<<<< HEAD
-# Git-Comandos
-
-Este repositório reúne **comandos úteis do Git** com exemplos práticos e explicações rápidas.  
-O objetivo é servir como guia de referência para iniciantes e também para quem já usa Git no dia a dia.
+```bash
+git restore arquivo.txt            # Descarta alterações ainda não adicionadas ao stage
+git restore --staged arquivo.txt   # Tira do stage, mantendo a alteração no arquivo
+git commit --amend -m "nova msg"   # Corrige a mensagem do último commit (antes do push)
+git revert <hash>                  # Cria um commit que desfaz outro, sem reescrever o histórico
+```
 
 ---
 
-##  Conteúdo
+## Dica: salvamento automático no VS Code
 
-- [Instalação](#instalação)
-- [Configuração inicial](#configuração-inicial)
-- [Comandos básicos](#comandos-básicos)
-- [Branches](#branches)
-- [Remotes](#remotes)
-- [Colaboração](#colaboração)
-- [Recursos adicionais](#recursos-adicionais)
+O Git só enxerga o que foi salvo no disco. Ative o salvamento automático em **File > Auto Save** (Arquivo > Salvar Automaticamente) ou salve com **Ctrl+S** antes do `git add`.
 
 ---
 
-##  Instalação
+## Recursos adicionais
 
-Para instalar o Git:
-
-- **Windows**: [Download oficial](https://git-scm.com/download/win)  
-- **Linux**:  
-  ```bash
-  sudo apt-get install git
-  
-##  Configuração inicial
-- **git config --global user.name "Seu Nome"**:
-- **git config --global user.email "seuemail@exemplo.com"**:
-
-##  Comandos básicos
-- **git init**:                # Inicializa um novo repositório
-- **git status**:              # Mostra o estado atual
-- **git add arquivo.txt**:     # Adiciona arquivo ao stage
-- **git commit -m "mensagem"**: # Cria um commit
-
-##  Branches
-- **git branch nome-branch**:   # Cria uma nova branch
-- **git checkout nome-branch**: # Troca para a branch
-- **git merge nome-branch**:    # Faz merge da branch
-
-##  Remotes
-- **git remote add origin https://github.com/usuario/repositorio.git**:
-- **git push -u origin main**:
-- **Você pode ativar essa função indo em File > Auto Save (Arquivo > Salvar Automaticamente) ou Ctrl s"**:
-- **git commit -m "sua mensagem aqui"**:
-- **git pull origin main**:
-
-## Principais formas de baixar
-- **Clonar Repositório Inteiro**
-    - **git clone https://github.com/......**
-- **Via GitHub CLI**
-    - **gh repo clone usuario/repositorio**
-
-
-##  Recursos adicionais
-- **[Documentação oficial do Git](https://git-scm.com/docs?utm_source=copilot.com)**:
-- **[GitHub Docs](https://docs.github.com/pt?utm_source=copilot.com)**:
-
-
-Agora deu certo!!!
->>>>>>> f939af460fe89a936225ce0b8ea3084be2aff5c5
+- [Documentação oficial do Git](https://git-scm.com/docs)
+- [GitHub Docs em português](https://docs.github.com/pt)
+- [Pro Git, livro gratuito em português](https://git-scm.com/book/pt-br/v2)
